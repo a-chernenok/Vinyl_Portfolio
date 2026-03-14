@@ -16,6 +16,11 @@ export const vinyls = [
     labelText: '#f5dcc8',
     hoverGlow: 'rgba(196, 98, 45, 0.4)',
     fontDisplay: 'serif',
+    description: '70s styled project with earth warm colors.',
+    links: [
+      { label: 'Live Site', url:''},
+      { label: 'Support Link', url:''}
+    ]
   },
   {
     id: 'y2k',
@@ -34,6 +39,11 @@ export const vinyls = [
     labelText: '#0d1b2a',
     hoverGlow: 'rgba(126, 200, 227, 0.4)',
     fontDisplay: 'monospace',
+    description: '00s styled project with chrome.',
+    links: [
+      { label: 'Live Site', url:''},
+      { label: 'Support Link', url:''}
+    ]
   },
   {
     id: 'futurist',
@@ -52,5 +62,10 @@ export const vinyls = [
     labelText: '#0a0a0a',
     hoverGlow: 'rgba(240, 237, 230, 0.2)',
     fontDisplay: 'sans-serif',
+    description: '00s styled project with unique weird colors.',
+    links: [
+      { label: 'Live Site', url:''},
+      { label: 'Support Link', url:''}
+    ]
   }
 ];

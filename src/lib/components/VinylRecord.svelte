@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
 
-  let { vinyl, index = 0 } = $props();
+  let { vinyl, index = 0, isOpen = false } = $props();
 
   let wrapperEl, sleeveEl, recordEl;
   let isHovered = $state(false);
@@ -22,11 +22,18 @@
         ease: 'power3.out'
       }
     );
+
+    if (isOpen) {
+        gsap.fromTo(recordEl, 
+          { x: 0, rotate: 0 },
+          { x: 250, rotate: 12, duration: 0.8, ease: 'power3.out' }
+        );
+    }
   });
 
   function handleMouseEnter() {
     isHovered = true;
-    gsap.to(recordEl, { x: 85, rotate: 12, duration: 0.55, ease: 'power3.out' });
+    gsap.to(recordEl, { x: 150, rotate: 12, duration: 0.55, ease: 'power3.out' });
     gsap.to(sleeveEl, { y: -6, duration: 0.4, ease: 'power2.out' });
   }
 
@@ -48,8 +55,7 @@
   }
 </script>
 
-<div
-  bind:this={wrapperEl}
+<div bind:this={wrapperEl}
   onmouseenter={handleMouseEnter}
   onmouseleave={handleMouseLeave}
   onclick={handleClick}
@@ -58,39 +64,29 @@
   tabindex="0"
   class="relative w-[280px] h-[280px] cursor-pointer select-none"
   data-scroll
-  data-scroll-speed="0.5"
->
+  data-scroll-speed="0.5">
 
   <!-- RECORD -->
-  <div
-    bind:this={recordEl}
+  <div bind:this={recordEl}
     class="absolute w-[262px] h-[262px] top-[9px] left-[9px] z-[1]"
-    style="will-change: transform;"
-  >
-    <div
-      class="w-full h-full rounded-full relative overflow-hidden"
-      style="background: {vinyl.recordBase}; box-shadow: inset 0 0 40px rgba(0,0,0,0.6), 0 4px 20px rgba(0,0,0,0.8);"
-    >
+    style="will-change: transform;">
+    <div class="w-full h-full rounded-full relative overflow-hidden"
+         style="background: {vinyl.recordBase}; box-shadow: inset 0 0 40px rgba(0,0,0,0.6), 0 4px 20px rgba(0,0,0,0.8);">
       <!-- Groove rings -->
       {#each grooves as pct}
-        <div
-          class="groove-ring"
-          style="
-            width: {pct * 2}%;
+        <div class="groove-ring"
+          style="width: {pct * 2}%;
             height: {pct * 2}%;
-            border-color: {vinyl.recordGroove};
-          "
-        ></div>
+            border-color: {vinyl.recordGroove};">
+        </div>
       {/each}
 
       <!-- Sheen -->
       <div class="sheen" class:spinning={isHovered}></div>
 
       <!-- Center label -->
-      <div
-        class="absolute w-[36%] h-[36%] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center gap-[2px] z-[2]"
-        style="background: {vinyl.labelBg};"
-      >
+      <div class="absolute w-[36%] h-[36%] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center gap-[2px] z-[2]"
+        style="background: {vinyl.labelBg};">
         <span class="text-[7px] font-bold uppercase tracking-wider text-center" style="color: {vinyl.labelText};">
           {vinyl.label}
         </span>
@@ -105,11 +101,9 @@
   </div>
 
   <!-- SLEEVE -->
-  <div
-    bind:this={sleeveEl}
+  <div bind:this={sleeveEl}
     class="absolute inset-0 rounded-[4px] z-[2] overflow-hidden"
-    style="background: {vinyl.sleeveGradient}; box-shadow: 0 10px 40px rgba(0,0,0,0.5);"
-  >
+    style="background: {vinyl.sleeveGradient}; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
     <div class="absolute inset-0 p-5 flex flex-col justify-between">
       <span class="text-[11px] font-bold tracking-[0.15em] opacity-80" style="color: {vinyl.sleeveAccent};">
         0{vinyl.index}
